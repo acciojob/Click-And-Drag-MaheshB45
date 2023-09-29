@@ -36,6 +36,36 @@
 
 <script>
 //Your code goes here 
+	const items = document.querySelectorAll('.item');
+  let isDragging = false;
+  let dragItem = null;
+  let startX, startY, offsetX, offsetY;
+
+  items.forEach(item => {
+    item.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      dragItem = item;
+      startX = e.clientX;
+      startY = e.clientY;
+      offsetX = item.getBoundingClientRect().left;
+      offsetY = item.getBoundingClientRect().top;
+      item.style.transition = 'none';
+    });
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const x = e.clientX - startX + offsetX;
+    const y = e.clientY - startY + offsetY;
+    dragItem.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    dragItem.style.transition = 'transform 0.2s';
+    dragItem.style.transform = 'none';
+  });
 </script>
 
   </body>
